@@ -48,8 +48,8 @@ $(function(){
 			let long = position.coords.longitude;
 			
 			// Call Dark Sky API and process response to JSON format
-			const proxy = 'http://cors-anywhere.herokuapp.com/';
-			const api = `${proxy}https://api.darksky.net/forecast/6385bf526a557ab35c6534562b693fdc/${lat},${long}?units=si`;
+			// const proxy = 'http://cors-anywhere.herokuapp.com/';
+			const api = `https://api.darksky.net/forecast/6385bf526a557ab35c6534562b693fdc/${lat},${long}?units=si`;
 
 			fetch(api)
 				.then(response => {
