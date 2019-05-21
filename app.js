@@ -48,7 +48,7 @@ $(function(){
 			let long = position.coords.longitude;
 			
 			// Call Dark Sky API and process response to JSON format
-			const proxy = 'http://cors-anywhere.herokuapp.com/';
+			const proxy = 'https://cors-anywhere.herokuapp.com/';
 			const api = `${proxy}https://api.darksky.net/forecast/6385bf526a557ab35c6534562b693fdc/${lat},${long}?units=si`;
 
 			fetch(api)
@@ -56,7 +56,6 @@ $(function(){
 					return response.json();
 				})
 				.then(data => {
-					console.log(data);
 
 					// Determine the current time in minutes when API sent response
 					let fetchDateObj = new Date();
