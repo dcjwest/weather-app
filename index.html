@@ -1,0 +1,174 @@
+<!--
+===================================================
+App Name: Weather Checker 
+URL: https://dcjwest.github.io/weather-app
+Description: A simple app to check weather forecasts
+Developer: David van der Westhuizen
+Copyright (c) 2019 David van der Westhuizen
+===================================================
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale= 1.0">
+	<title>Weather App</title>
+
+	<!-- Add Bootstrap Styles -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+	<!-- Add Font Awesome Icons -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+	<!-- Embed Font Face -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:300,400,700&display=swap">
+
+	<!-- Custom CSS -->
+	<link rel="stylesheet" href="loader.css">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<!-- Loading screen -->
+	<div id="loader" class="flex-center">
+		<div id="load1" class="loader-icon"></div>
+		<div id="load2" class="loader-icon"></div>
+		<div id="load3" class="loader-icon"></div>
+	</div>
+
+	<!-- Error screen -->
+	<div id="error-page" class="flex-center">
+		<div>
+			<h1>Something went wrong...</h1>
+			<img id="error-img" src="images/sad-cloud.png">
+		</div>
+	</div>
+
+	<!--=====================
+	 	Main app starts here!
+	 ========================-->
+	<div id="app" class="container">
+		<!-- Show current location name  -->
+		<h4 class="text-center"><span id="location">Location Name</span> <i class="fas fa-map-marker-alt"></i></h4>
+
+		<!-- Display current temperature and weather summary -->
+		<div id="current-info" class="row text-center">
+			<div class="col-12">
+				<h1 id="full-temp-value"><span id="current-temp">16</span>°<span id="temp-unit">C</span></h1>
+				<div class="row align-items-center">
+					<div class="col-6 text-right">
+						<h3 id="current-summary">Mostly cloudy</h3>
+						<h5 class="max-temp"><span id="current-max">20</span>°</h5>
+						<h5 class="min-temp">/<span id="current-min">10</span>°</h5>
+					</div>
+					<div class="col-6 text-left">
+						<canvas id="current-icon" width="128" height="128"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Display today's hourly temperature for the next 6 hours-->
+		<div class="row">
+			<div class="col-12">
+				<span id="update-counter">Updated 0 minutes ago</span>
+				<span id="darkskycon" class="float-right"><a href="https://darksky.net/dev"><img src="images/darksky-icon.png"> Dark Sky API</a></span>
+			</div>
+		</div>
+		<hr style="margin-top:0">
+		<div id="hours" class="row text-center">
+			<div class="col-2">Now</div>
+			<div class="col-2">15:00</div>
+			<div class="col-2">16:00</div>
+			<div class="col-2">17:00</div>
+			<div class="col-2">18:00</div>
+			<div class="col-2">19:00</div>
+		</div>
+		<div id="hourly-icons" class="row text-center">
+			<div class="col-2"><img class="weather-icon" src="images/rain.png"></div>
+			<div class="col-2"><img class="weather-icon" src="images/partly-cloudy-day.png"></div>
+			<div class="col-2"><img class="weather-icon" src="images/partly-cloudy-day.png"></div>
+			<div class="col-2"><img class="weather-icon" src="images/rain.png"></div>
+			<div class="col-2"><img class="weather-icon" src="images/partly-cloudy-day.png"></div>
+			<div class="col-2"><img class="weather-icon" src="images/clear-day.png"></div>
+		</div>
+		<div id="hourly-temps" class="row text-center">
+			<div class="col-2"><span>20</span>°</div>
+			<div class="col-2"><span>20</span>°</div>
+			<div class="col-2"><span>20</span>°</div>
+			<div class="col-2"><span>20</span>°</div>
+			<div class="col-2"><span>20</span>°</div>
+			<div class="col-2"><span>20</span>°</div>
+		</div>
+		<hr>
+
+		<!-- Display temperatures for the next 3 days -->
+		<div class="row align-items-center forecast-day">
+			<div class="col-6"><strong><span class="date">Day1, dd mm</span></strong></div>
+			<div class="col-2"><img class="weather-icon" src="images/partly-cloudy-day.png"></div>
+			<div class="col-4 text-right"><span class="max-temp">20</span>°<span class="min-temp">/10</span>°</span></div>
+		</div>
+		<hr>
+		<div class="row align-items-center forecast-day">
+			<div class="col-6"><strong><span class="date">Day2, dd mm</span></strong></div>
+			<div class="col-2"><img class="weather-icon" src="images/partly-cloudy-day.png"></div>
+			<div class="col-4 text-right"><span class="max-temp">20</span>°<span class="min-temp">/10</span>°</span></div>
+		</div>
+		<hr>
+		<div class="row align-items-center forecast-day">
+			<div class="col-6"><strong><span class="date">Day3, dd mm</span></strong></div>
+			<div class="col-2"><img class="weather-icon" src="images/clear-day.png"></div>
+			<div class="col-4 text-right"><span class="max-temp">20</span>°<span class="min-temp">/10</span>°</span></div>
+		</div>
+		<hr>
+
+		<!-- Show current comfort level -->
+		<div class="row">
+			<div class="col-12"><strong>Comfort Level</strong></div>
+		</div>
+		<div class="row align-items-center">
+			<div class="col-6">
+				<div class="text-center">Humidity</div>
+				<div id="humidity" class="progress">
+					<div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" style="width: 54%;" aria-valuenow="54" aria-valuemin="0" aria-valuemax="100"><strong>54%</strong></div>
+				</div>
+			</div>
+			<div class="col-6 text-center">
+				<div class="stat">Feels like: <span id="feels-like" class="stat-value">15</span>°</div>
+				<div class="stat">UV index: <span id="uv-index" class="stat-value">2</span></div>
+			</div>
+		</div>
+		<hr>
+
+		<!-- Display current wind parameters -->
+		<div class="row align-items-center">
+			<div class="col-6">
+				<!-- Windmill animation with warning-sign -->
+				<div id="windmill">
+					<div id="mill-base"></div>
+					<div id="mill-rotor"></div>
+					<div id="blades">
+						<div class="blade"></div>
+						<div class="blade"></div>
+						<div class="blade"></div>
+					</div>
+				</div>
+				<div id="sign">
+					<div id="sign-post"></div>
+					<div id="sign-board"><p>Do not touch blades!</p></div>
+				</div>
+			</div>
+			<div class="col-6 text-center">
+				<div class="stat">Direction: <span id="wind-direct" class="stat-value">NWSE</span></div>
+				<div class="stat">Speed: <span id="wind-speed" class="stat-value">x km/h</span></div>
+			</div>
+		</div>
+		<hr>
+	</div>
+
+	<!-- Add jQuery Plugin  -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+	<script src="../skycons.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>

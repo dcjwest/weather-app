@@ -1,0 +1,264 @@
+/*===================================================
+App Name: Weather Checker 
+URL: https://dcjwest.github.io/weather-app
+Description: A simple app to check weather forecasts
+Developer: David van der Westhuizen
+Copyright (c) 2019 David van der Westhuizen
+===================================================*/
+
+/*
+ * Custom Styles
+ */
+
+html {
+	height: 100%;
+}
+
+body {
+	background-image: linear-gradient(rgb(48,62,143), rgb(47,150,163));
+	background-attachment: fixed;
+	background-size: cover;
+	color: #fff;
+	font-family: 'Nunito', sans-serif;
+	font-size: 14px;
+	height: 100%;
+}
+
+hr {
+	background-color: #fff;
+}
+
+.flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#error-page {
+	background-image: linear-gradient(rgb(178,0,0), rgb(255,216,0));
+	padding: 15px;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	text-align: center;
+}
+
+#error-page h1 {
+	font-size: 40px;
+}
+
+#error-img {
+	filter: invert(100%);
+}
+
+#app {
+	display: none;
+}
+
+/* Current location, temperature, and weather summary */
+
+#location {
+	margin: 15px 0; 
+}
+
+#location,
+#map-marker {
+	display: inline-block;
+}
+
+#current-info {
+	margin: 20px 0;
+}
+
+#full-temp-value {
+	font-size: 80px;
+	margin-top: 20px;
+}
+
+.max-temp,
+.min-temp {
+	display: inline;
+}
+
+.max-min-temp #current-min,
+#current-min,
+.min-temp,
+.stat {
+	color: #ccc;
+}
+
+/* Miscellaneous styles */
+
+.stat-value {
+	color: #fff;
+}
+
+#temp-unit {
+	font-weight: lighter;
+}
+
+.weather-icon {
+	width: 30px;
+}
+
+/* Dark Sky API link */
+
+#darkskycon img {
+	filter: invert(100%);
+	margin-bottom: 5px;
+	width: 16px;
+}
+
+#darkskycon a {
+	color: #fff;
+	text-decoration: none;
+}
+
+#darkskycon a:hover,
+#darkskycon a:focus {
+	color: #ccc;
+	filter: invert(50%);
+}
+
+/* Windmill and warning-sign image build and animation */
+
+#windmill {
+	width: 100px;
+	height: 150px;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+#mill-base {
+	width: 20px;
+	height: 0;
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;
+	border-bottom: 90px solid #fff;
+	border-radius: 0 0 10px 10px;
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+#mill-rotor {
+	width: 10px;
+	height: 10px;
+	background-color: #fff;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 95px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+#blades {
+	width: 100px;
+	height: 100px;
+	position: absolute;
+	top: 0;
+	cursor: pointer;
+	animation: windmill 4s linear infinite;
+}
+
+#blades:hover {
+	animation-duration: .5s;
+}
+
+.blade {
+	width: 0;
+	height: 15px;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-right: 50px solid #fff;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	position: absolute;
+	top: 43%;
+	left: 50%;
+	transform-origin: 0;
+}
+
+.blade:nth-child(1){
+	transform: rotate(0deg) translateX(20%);
+}
+
+.blade:nth-child(2){
+	transform: rotate(120deg) translateX(20%);
+}
+
+.blade:nth-child(3){
+	transform: rotate(240deg) translateX(20%);
+}
+
+@keyframes windmill {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+#sign {
+	width: 60px;
+	height: 60px;
+	position: absolute;
+	left: 50%;
+	bottom: 0;
+}
+
+#sign-post {
+	background-color: #91492F;
+	border-radius: 5px;
+	width: 5px;
+	height: 120%;
+	position: absolute;
+	left: 50%;
+	bottom: -10px;
+	transform: translateX(-50%);
+	z-index: -1;
+}
+
+#sign-board {
+	background-color: #FFD800;
+	border: 1px solid #000;
+	border-radius: 3px;
+	width: 100%;
+	height: 40px;
+	padding: 4px;
+	position: absolute;
+	top: 5px;
+}
+
+#sign-board p {
+	color: #000;
+	font-size: 10px;
+	font-weight: 700;
+	letter-spacing: 1px;
+	line-height: 1;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+@media (min-width: 576px) {
+	body {
+		font-size: 16px;
+	}
+
+	#current-icon {
+		width: 30%;
+		height: auto;
+	}
+
+	.weather-icon {
+		width: 40px;
+	}
+
+	.stat {
+		font-size: 20px;
+	}
+}
