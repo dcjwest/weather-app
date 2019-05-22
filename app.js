@@ -105,10 +105,11 @@ $(function(){
 		setSkycons(document.getElementById("current-icon"), icon);
 
 		// Comfort Level Data
+		let humidityVal = Math.round(humidity*100);
 		$(humidityBar).find(".progress-bar")
-			.attr("aria-valuenow", `${humidity*100}`)
-			.width(`${humidity*100}%`)
-			.text(`${humidity*100}%`);
+			.attr("aria-valuenow", `${humidityVal}`)
+			.width(`${humidityVal}%`)
+			.text(`${humidityVal}%`);
 		$(feelsLike).text(`${Math.round(apparentTemperature)}`);
 		$(uvIndexVal).text(uvIndex);
 
