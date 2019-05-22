@@ -45,41 +45,66 @@ $(function(){
 	if (navigator.geolocation){
 		navigator.geolocation.getCurrentPosition(position => {
 
-			// Initialise latitude and longitude variables
+			// Initialise latitude and longitude variables and use them to retrieve data from APIs
 			let lat = position.coords.latitude;
 			let long = position.coords.longitude;
 			
-			// Call Dark Sky API and process response to JSON format
-			const proxy = 'https://cors-anywhere.herokuapp.com/';
-			const api = `${proxy}https://api.darksky.net/forecast/6385bf526a557ab35c6534562b693fdc/${lat},${long}?units=si`;
+			getLocation(lat, long);
+			getWeatherData(lat, long);
+			console.log("Successful responses from APIs. Launching app now.");
 
-			fetch(api)
-				.then(response => {
-					return response.json();
-				})
-				.then(data => {
+			app.show(500);
+			errorPage.hide();
+			loadScreen.fadeOut(300);
 
-					console.log(data);
-					// Determine the current time in minutes when API sent response
-					let fetchDateObj = new Date();
-					lastFetchTime = fetchDateObj.getHours()*60 + fetchDateObj.getMinutes();
-					// Show time since last API call
-					setInterval(updateTime, 1000);
-					setDOMelements(data);
+		}, (err) => handleError(err));
+	}
 
-					app.show(500);
-					errorPage.hide();
-					loadScreen.fadeOut(300);
-				});
+	// Hide weather app and display error screen with error message logged in the console
+	const handleError = (err) => {
+		console.log(err);
+		errorPage.css("opacity", 1).slideDown(1000);
+		app.hide();
+		loadScreen.hide();
+	}
 
-		}, (err) => {
-			//If user declines to share location, show error screen
-			if (err.code === err.PERMISSION_DENIED){
-				errorPage.css("opacity", 1).slideDown(1000);
-				app.hide();
-				loadScreen.hide();
-			}
-		});
+	// Call LocationIQ API and process response to JSON format
+	const getLocation = (latitude, longitude) => {
+		const locAPI = `https://us1.locationiq.com/v1/reverse.php?key=56552b4b1c4b9a&lat=${latitude}&lon=${longitude}&format=json`;
+		
+		fetch(locAPI)
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				// Display current location
+				$(location).text(data.address.town);
+			})
+			.catch(err => handleError(err));
+	}
+
+	// Call Dark Sky API and process response to JSON format
+	const getWeatherData = (latitude, longitude) => {
+		const proxy = 'https://cors-anywhere.herokuapp.com/'; // Enables cross-origin requests to anywhere.
+		const dsAPI = `${proxy}https://api.darksky.net/forecast/6385bf526a557ab35c6534562b693fdc/${latitude},${longitude}?units=si`;
+
+		fetch(dsAPI)
+			.then(response => {
+				return response.json();
+			})
+			.then(data => {
+				// Determine the current time in minutes when API sent response
+				let fetchDateObj = new Date();
+				lastFetchTime = fetchDateObj.getHours()*60 + fetchDateObj.getMinutes();
+
+				// Show time since last API call and update every second.
+				setInterval(updateTime, 1000);
+
+				// Populate DOM elements with weather data
+				setDOMelements(data);
+
+			})
+			.catch(err => handleError(err));
 	}
 
 	// Set DOM elements with updated weather data from API
@@ -97,9 +122,8 @@ $(function(){
 				windSpeed,
 				uvIndex } = weatherData.currently;
 
-		location.text(weatherData.timezone);
-		currentTemp.text(Math.round(temperature));
-		tempSummary.text(summary);
+		$(currentTemp).text(Math.round(temperature));
+		$(tempSummary).text(summary);
 
 		// Set Skycon glyph
 		setSkycons(document.getElementById("current-icon"), icon);
