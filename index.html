@@ -55,12 +55,12 @@ Copyright (c) 2019 David van der Westhuizen
 		<!-- Display current temperature and weather summary -->
 		<div id="current-info" class="row text-center">
 			<div class="col-12">
-				<h1 id="full-temp-value"><span id="current-temp">16</span>°<span id="temp-unit">C</span></h1>
+				<h1 id="full-temp-value"><span id="current-temp">16</span>°<span id="temp-unit"></span></h1>
 				<div class="row align-items-center">
 					<div class="col-6 text-right">
 						<h3 id="current-summary">Mostly cloudy</h3>
 						<h5 class="max-temp"><span id="current-max">20</span>°</h5>
-						<h5 class="min-temp">/<span id="current-min">10</span>°</h5>
+						<h5 class="min-temp">/ <span id="current-min">10</span>°</h5>
 					</div>
 					<div class="col-6 text-left">
 						<canvas id="current-icon" width="128" height="128"></canvas>
@@ -107,19 +107,19 @@ Copyright (c) 2019 David van der Westhuizen
 		<div class="row align-items-center forecast-day">
 			<div class="col-6"><strong><span class="date">Day1, dd mm</span></strong></div>
 			<div class="col-2"><img class="weather-icon" src="images/partly-cloudy-day.png"></div>
-			<div class="col-4 text-right"><span class="max-temp">20</span>°<span class="min-temp">/10</span>°</span></div>
+			<div class="col-4 text-right"><span class="max-temp">20</span>° <span class="min-temp">/ 10</span>°</span></div>
 		</div>
 		<hr>
 		<div class="row align-items-center forecast-day">
 			<div class="col-6"><strong><span class="date">Day2, dd mm</span></strong></div>
 			<div class="col-2"><img class="weather-icon" src="images/partly-cloudy-day.png"></div>
-			<div class="col-4 text-right"><span class="max-temp">20</span>°<span class="min-temp">/10</span>°</span></div>
+			<div class="col-4 text-right"><span class="max-temp">20</span>° <span class="min-temp">/ 10</span>°</span></div>
 		</div>
 		<hr>
 		<div class="row align-items-center forecast-day">
 			<div class="col-6"><strong><span class="date">Day3, dd mm</span></strong></div>
 			<div class="col-2"><img class="weather-icon" src="images/clear-day.png"></div>
-			<div class="col-4 text-right"><span class="max-temp">20</span>°<span class="min-temp">/10</span>°</span></div>
+			<div class="col-4 text-right"><span class="max-temp">20</span>° <span class="min-temp">/ 10</span>°</span></div>
 		</div>
 		<hr>
 
@@ -142,6 +142,9 @@ Copyright (c) 2019 David van der Westhuizen
 		<hr>
 
 		<!-- Display current wind parameters -->
+		<div class="row">
+			<div class="col-12"><strong>Wind</strong></div>
+		</div>
 		<div class="row align-items-center">
 			<div class="col-6">
 				<!-- Windmill animation with warning-sign -->
@@ -161,7 +164,7 @@ Copyright (c) 2019 David van der Westhuizen
 			</div>
 			<div class="col-6 text-center">
 				<div class="stat">Direction: <span id="wind-direct" class="stat-value">NWSE</span></div>
-				<div class="stat">Speed: <span id="wind-speed" class="stat-value">x km/h</span></div>
+				<div class="stat">Speed: <span id="wind-speed" class="stat-value">x</span> km/h</div>
 			</div>
 		</div>
 		<hr>

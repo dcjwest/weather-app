@@ -38,6 +38,8 @@ $(function(){
 	const humidityBar = $("#humidity");
 	const feelsLike = $("#feels-like");
 	const uvIndexVal = $("#uv-index");
+	const windDirection = $("#wind-direct");
+	const windVelocity = $("#wind-speed");
 
 	// Check if user enables geolocation in the browser and launch app if yes
 	if (navigator.geolocation){
@@ -57,6 +59,7 @@ $(function(){
 				})
 				.then(data => {
 
+					console.log(data);
 					// Determine the current time in minutes when API sent response
 					let fetchDateObj = new Date();
 					lastFetchTime = fetchDateObj.getHours()*60 + fetchDateObj.getMinutes();
@@ -79,38 +82,39 @@ $(function(){
 		});
 	}
 
-	// Updated time since weather data was fetched
-	const updateTime = () => {
-		let currentTime = (new Date()).getHours()*60 + (new Date()).getMinutes(); // Current time in minutes
-		let minutes_since_update = Math.abs(currentTime - lastFetchTime);
-
-		// Adjust message for if only one minute or several MINUTES have passed
-		let updateMsg = `Updated ${minutes_since_update} ${minutes_since_update === 1? 'minute' : 'minutes'} ago`;
-
-		$(updateCounter).text(updateMsg);
-	}
-
 	// Set DOM elements with updated weather data from API
 	const setDOMelements = (weatherData) => {
 
 		/***************\
 		 CURRENT WEATHER
 		\***************/
-		const { apparentTemperature, temperature, summary, humidity, icon, uvIndex } = weatherData.currently;
+		const { apparentTemperature,
+				temperature,
+				humidity,
+				icon,
+				summary,
+				windBearing,
+				windSpeed,
+				uvIndex } = weatherData.currently;
+
 		location.text(weatherData.timezone);
 		currentTemp.text(Math.round(temperature));
 		tempSummary.text(summary);
 
+		// Set Skycon glyph
 		setSkycons(document.getElementById("current-icon"), icon);
 
+		// Comfort Level Data
 		$(humidityBar).find(".progress-bar")
 			.attr("aria-valuenow", `${humidity*100}`)
 			.width(`${humidity*100}%`)
 			.text(`${humidity*100}%`);
-
 		$(feelsLike).text(`${Math.round(apparentTemperature)}`);
 		$(uvIndexVal).text(uvIndex);
-		// Current max/min temperature set in "Daily" section because of how API is built
+
+		// Wind Data
+		$(windDirection).text(degreesToCompass(windBearing)); // Convert degrees to textual compass direction
+		$(windVelocity).text(Math.round(windSpeed*3.6)); // Convert metres/second to kilometres/hour
 
 		/***********************\
 		 UPCOMING HOURLY WEATHER
@@ -150,7 +154,7 @@ $(function(){
 
 			let { temperatureMax, temperatureMin } = dailyData[j];
 			$(forecastDays[j-1]).find(".max-temp").text(`${Math.round(temperatureMax)}`);
-			$(forecastDays[j-1]).find(".min-temp").text(`/${Math.round(temperatureMin)}`);
+			$(forecastDays[j-1]).find(".min-temp").text(`/ ${Math.round(temperatureMin)}`);
 		}
 		return;
 	}
@@ -177,6 +181,26 @@ $(function(){
 		convertedDate.month = monthArr[nextDate.getMonth()];
 
 		return convertedDate;
+	}
+
+	// Update time since weather data was fetched
+	const updateTime = () => {
+		let currentTime = (new Date()).getHours()*60 + (new Date()).getMinutes(); // Current time in minutes
+		let minutes_since_update = Math.abs(currentTime - lastFetchTime);
+
+		// Adjust message for if only one minute or several MINUTES have passed
+		let updateMsg = `Updated ${minutes_since_update} ${minutes_since_update === 1? 'minute' : 'minutes'} ago`;
+
+		$(updateCounter).text(updateMsg);
+	}
+
+	// Approximate compass direction from given wind bearing in degress with North defined at 0/360deg
+	const degreesToCompass = (deg) => {
+		let windDirections = [
+		"North", "North-East", "East", "South-East", "South", "South-West", "West", "North-West"
+		];
+		let bearing = Math.round(deg/45) % 8; // 8 direction points on compass and 360deg / 8 gives 45deg
+		return windDirections[bearing];
 	}
 
 	// Set animated Skycon weather glyph according to icon summary retrieved from API

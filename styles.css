@@ -10,11 +10,7 @@ Copyright (c) 2019 David van der Westhuizen
  * Custom Styles
  */
 
-html {
-	height: 100%;
-}
-
-body {
+html, body {
 	background-image: linear-gradient(rgb(48,62,143), rgb(47,150,163));
 	background-attachment: fixed;
 	background-size: cover;
@@ -131,11 +127,11 @@ hr {
 }
 
 #mill-base {
-	width: 20px;
+	width: 15px;
 	height: 0;
 	border-left: 5px solid transparent;
 	border-right: 5px solid transparent;
-	border-bottom: 90px solid #fff;
+	border-bottom: 94px solid #fff;
 	border-radius: 0 0 10px 10px;
 	position: absolute;
 	bottom: 0;
@@ -144,12 +140,12 @@ hr {
 }
 
 #mill-rotor {
-	width: 10px;
-	height: 10px;
+	width: 9px;
+	height: 9px;
 	background-color: #fff;
 	border-radius: 50%;
 	position: absolute;
-	bottom: 95px;
+	bottom: 96px;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -169,16 +165,31 @@ hr {
 
 .blade {
 	width: 0;
-	height: 15px;
+	height: 12px;
 	border-top: 5px solid transparent;
 	border-bottom: 5px solid transparent;
-	border-right: 50px solid #fff;
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
+	border-right: 30px solid #fff;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
 	position: absolute;
 	top: 43%;
 	left: 50%;
 	transform-origin: 0;
+}
+
+.blade::after {
+	content: "";
+	width: 0;
+	height: 12px;
+	border-top: 5px solid transparent;
+	border-bottom: 5px solid transparent;
+	border-left: 30px solid #fff;
+	border-top-left-radius: 5px;
+	border-bottom-left-radius: 5px;
+	position: absolute;
+	bottom: -5px;
+	left: 25px;
+
 }
 
 .blade:nth-child(1){
@@ -209,6 +220,7 @@ hr {
 	position: absolute;
 	left: 50%;
 	bottom: 0;
+	z-index: 10;
 }
 
 #sign-post {
