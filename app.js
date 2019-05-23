@@ -51,7 +51,6 @@ $(function(){
 			
 			getLocation(lat, long);
 			getWeatherData(lat, long);
-			console.log("Successful responses from APIs. Launching app now.");
 
 			app.show(500);
 			errorPage.hide();
