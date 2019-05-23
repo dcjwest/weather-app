@@ -76,7 +76,7 @@ $(function(){
 			.then((response) => {
 				return response.json();
 			})
-			.then((data) => {
+			.then(data => {
 				// Display current location
 				$(location).text(data.address.town);
 			})
@@ -126,7 +126,7 @@ $(function(){
 		$(tempSummary).text(summary);
 
 		// Set Skycon glyph
-		setSkycons(document.getElementById("current-icon"), icon);
+		setSkycons($("#current-icon")[0], icon);
 
 		// Comfort Level Data
 		let humidityVal = Math.round(humidity*100);
@@ -168,15 +168,21 @@ $(function(){
 		const dailyData = weatherData.daily.data;
 		let nextDay, nextDayIcon;
 
+		// Set max/min temperature for today
+		$(currentMaxTemp).text(`${Math.round(dailyData[0].temperatureMax)}`);
+		$(currentMinTemp).text(`${Math.round(dailyData[0].temperatureMin)}`);
+
 		for (let j = 1; j <= 3; j++){
 			let nextDayInfo = convertUnixTime(dailyData[j].time);
-			// j = 0 represents today in the API. For j = 1, the app will just show "Tomorrow"
+			// Set next day's date. j = 0 represents today in the API. For j = 1, the app will just show "Tomorrow"
 			nextDay = j === 1? "Tomorrow" : nextDayInfo.day;
 			$(forecastDays[j-1]).find(".date").text(`${nextDay}, ${nextDayInfo.date} ${nextDayInfo.month}`);
 
+			// Get and set icon for next day
 			nextDayIcon = dailyData[j].icon
 			$(forecastDays[j-1]).find(".weather-icon").attr("src", `images/${nextDayIcon}.png`);
 
+			// Get and set max/min temperature for next day
 			let { temperatureMax, temperatureMin } = dailyData[j];
 			$(forecastDays[j-1]).find(".max-temp").text(`${Math.round(temperatureMax)}`);
 			$(forecastDays[j-1]).find(".min-temp").text(`/ ${Math.round(temperatureMin)}`);
